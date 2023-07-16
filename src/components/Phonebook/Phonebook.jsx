@@ -5,13 +5,18 @@ import Filter from 'components/Filter/Filter';
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Phonebook.module.css';
-import { addContact, deleteContact } from 'redux/contactSlice';
+import { fetchContacts, addContact, deleteContact } from 'redux/operations';
 import { setFilter } from 'redux/filterSlice';
+import { useEffect } from 'react';
 
 const Phonebook = () => {
   const contacts = useSelector(state => state.contacts);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  },[dispatch])
 
   const handleAddContact = newContact => {
     const isDuplicateName = contacts.some(
@@ -27,6 +32,7 @@ const Phonebook = () => {
   };
 
   const handleDeleteContact = contactId => {
+    console.log(contactId);
     dispatch(deleteContact(contactId));
   };
 
